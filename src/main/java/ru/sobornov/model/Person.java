@@ -1,9 +1,11 @@
 package ru.sobornov.model;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +36,15 @@ public class Person {
     @Column(name = "age")
     private int age;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @OneToMany(mappedBy = "person")
     private List<Item> items;
+
+    public void addItem(Item item) {
+        if (this.items == null) {
+            this.items = new ArrayList<>();
+        }
+        this.items.add(item);
+        item.setPerson(this);
+    }
 }

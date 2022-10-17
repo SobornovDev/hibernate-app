@@ -27,12 +27,13 @@ public class App
         try {
             session.beginTransaction();
 
-            Person person = new Person("Cascade test40", 40);
+            Person person = new Person("Cascade test person", 60);
 
-            Item item = new Item("Test Item", person);
-            person.setItems(new ArrayList<>(Collections.singletonList(item)));
+            person.addItem(new Item("Test Item1", person));
+            person.addItem(new Item("Test Item2", person));
+            person.addItem(new Item("Test Item3", person));
 
-            session.persist(person);
+            session.save(person);
 
             session.getTransaction().commit();
 
